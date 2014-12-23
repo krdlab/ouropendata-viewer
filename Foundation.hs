@@ -4,7 +4,6 @@ import Import.NoFoundation
 import Database.Persist.Sql (ConnectionPool, runSqlPool)
 import Text.Hamlet          (hamletFile)
 import Text.Jasmine         (minifym)
-import Yesod.Auth.BrowserId (authBrowserId)
 import Yesod.Default.Util   (addStaticContentExternal)
 import Yesod.Core.Types     (Logger)
 
@@ -44,7 +43,7 @@ instance Yesod App where
 
     -- Store session data on the client in encrypted cookies,
     -- default session idle timeout is 120 minutes
-    makeSessionBackend _ = fmap Just $ defaultClientSessionBackend
+    makeSessionBackend _ = Just <$> defaultClientSessionBackend
         120    -- timeout in minutes
         "config/client_session_key.aes"
 
@@ -64,14 +63,14 @@ instance Yesod App where
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     -- The page to be redirected to when authentication is required.
-    authRoute _ = Just $ AuthR LoginR
+    --00 authRoute _ = Just $ AuthR LoginR
 
     -- Routes not requiring authentication.
-    isAuthorized (AuthR _) _ = return Authorized
-    isAuthorized FaviconR _ = return Authorized
-    isAuthorized RobotsR _ = return Authorized
+    --isAuthorized (AuthR _) _ = return Authorized
+    --isAuthorized FaviconR _ = return Authorized
+    --isAuthorized RobotsR _ = return Authorized
     -- Default to Authorized for now.
-    isAuthorized _ _ = return Authorized
+    --isAuthorized _ _ = return Authorized
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -110,32 +109,32 @@ instance YesodPersist App where
 instance YesodPersistRunner App where
     getDBRunner = defaultGetDBRunner appConnPool
 
-instance YesodAuth App where
-    type AuthId App = UserId
-
-    -- Where to send a user after successful login
-    loginDest _ = HomeR
-    -- Where to send a user after logout
-    logoutDest _ = HomeR
-    -- Override the above two destinations when a Referer: header is present
-    redirectToReferer _ = True
-
-    getAuthId creds = runDB $ do
-        x <- getBy $ UniqueUser $ credsIdent creds
-        case x of
-            Just (Entity uid _) -> return $ Just uid
-            Nothing -> do
-                fmap Just $ insert User
-                    { userIdent = credsIdent creds
-                    , userPassword = Nothing
-                    }
-
-    -- You can add other plugins like BrowserID, email or OAuth here
-    authPlugins _ = [authBrowserId def]
-
-    authHttpManager = getHttpManager
-
-instance YesodAuthPersist App
+--instance YesodAuth App where
+--    type AuthId App = UserId
+--
+--    -- Where to send a user after successful login
+--    loginDest _ = HomeR
+--    -- Where to send a user after logout
+--    logoutDest _ = HomeR
+--    -- Override the above two destinations when a Referer: header is present
+--    redirectToReferer _ = True
+--
+--    getAuthId creds = runDB $ do
+--        x <- getBy $ UniqueUser $ credsIdent creds
+--        case x of
+--            Just (Entity uid _) -> return $ Just uid
+--            Nothing -> do
+--                fmap Just $ insert User
+--                    { userIdent = credsIdent creds
+--                    , userPassword = Nothing
+--                    }
+--
+--    -- You can add other plugins like BrowserID, email or OAuth here
+--    authPlugins _ = [authBrowserId def]
+--
+--    authHttpManager = getHttpManager
+--
+--instance YesodAuthPersist App
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.
