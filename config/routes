@@ -2,5 +2,7 @@
 /favicon.ico    FaviconR    GET
 /robots.txt     RobotsR     GET
 
+/datasets                                   DataSetsR   GET
+
 /               StaticR Static appStatic
 
