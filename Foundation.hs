@@ -2,7 +2,6 @@ module Foundation where
 
 import Import.NoFoundation
 import Database.Persist.Sql (ConnectionPool, runSqlPool)
-import Text.Hamlet          (hamletFile)
 import Text.Jasmine         (minifym)
 import Yesod.Default.Util   (addStaticContentExternal)
 import Yesod.Core.Types     (Logger)
@@ -29,7 +28,7 @@ instance HasHttpManager App where
 -- Note that this is really half the story; in Application.hs, mkYesodDispatch
 -- generates the rest of the code. Please see the linked documentation for an
 -- explanation for this split.
-mkYesodData "App" $(parseRoutesFile "config/routes")
+mkYesodData "App" $(parseRoutesFileNoCheck "config/routes")
 
 -- | A convenient synonym for creating forms.
 type Form x = Html -> MForm (HandlerT App IO) (FormResult x, Widget)
@@ -47,20 +46,20 @@ instance Yesod App where
         120    -- timeout in minutes
         "config/client_session_key.aes"
 
-    defaultLayout widget = do
-        master <- getYesod
-        mmsg <- getMessage
+    --defaultLayout widget = do
+    --    master <- getYesod
+    --    mmsg <- getMessage
 
-        -- We break up the default layout into two components:
-        -- default-layout is the contents of the body tag, and
-        -- default-layout-wrapper is the entire page. Since the final
-        -- value passed to hamletToRepHtml cannot be a widget, this allows
-        -- you to use normal widget features in default-layout.
+    --    -- We break up the default layout into two components:
+    --    -- default-layout is the contents of the body tag, and
+    --    -- default-layout-wrapper is the entire page. Since the final
+    --    -- value passed to hamletToRepHtml cannot be a widget, this allows
+    --    -- you to use normal widget features in default-layout.
 
-        pc <- widgetToPageContent $ do
-            addStylesheet $ StaticR css_bootstrap_css
-            $(widgetFile "default-layout")
-        withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
+    --    pc <- widgetToPageContent $ do
+    --        addStylesheet $ StaticR css_bootstrap_css
+    --        $(widgetFile "default-layout")
+    --    withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     -- The page to be redirected to when authentication is required.
     --00 authRoute _ = Just $ AuthR LoginR
