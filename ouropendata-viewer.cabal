@@ -21,6 +21,7 @@ library
                      Settings.StaticFiles
                      Handler.Common
                      Handler.DataSets
+                     Handler.Municipalities
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

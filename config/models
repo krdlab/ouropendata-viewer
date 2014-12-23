@@ -14,7 +14,7 @@ Resource
     createdAt UTCTime
     dataset DataSetId
 
-Municipality
+Municipality json
     name Text
 
 EstimatedPopulation

@@ -1,8 +1,8 @@
-
 /favicon.ico    FaviconR    GET
 /robots.txt     RobotsR     GET
 
-/datasets                                   DataSetsR   GET
+/datasets DataSetsR   GET
+/municipalities MunicipalitiesR GET
 
 /               StaticR Static appStatic
 
