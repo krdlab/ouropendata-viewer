@@ -2,7 +2,7 @@
 Author
     name Text
 
-DataSet
+DataSet json
     title Text
     description Text
     updatedAt UTCTime
