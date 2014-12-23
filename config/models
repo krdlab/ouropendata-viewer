@@ -20,6 +20,6 @@ Municipality json
 EstimatedPopulation
     municipality MunicipalityId
     total Int
-    timestamp UTCTime
+    timestamp Day
     resource ResourceId
 
