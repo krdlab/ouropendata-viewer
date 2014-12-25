@@ -81,6 +81,7 @@ library
                  , containers
                  , vector
                  , time
+                 , esqueleto
 
 executable         ouropendata-viewer
     if flag(library-only)

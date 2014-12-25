@@ -2,9 +2,14 @@
 module Handler.DataSets where
 
 import Import
+import qualified Database.Esqueleto as E
+import Database.Esqueleto ((^.))
 
 getDataSetsR :: Handler Value
 getDataSetsR = do
-    sets <- runDB $ selectList [] [] :: Handler [Entity DataSet]
-    return $ object ["datasets" .= sets]
+    sets <- runDB $ E.select $ E.from $ \(d `E.InnerJoin` a) -> do
+        E.on (d ^. DataSetAuthor E.==. a ^.AuthorId)
+        return (d, a)
+    let res = map (uncurry toDataSetResponse) sets
+    return $ object ["datasets" .= res]
 
