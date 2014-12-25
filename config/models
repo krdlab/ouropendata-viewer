@@ -6,20 +6,20 @@ DataSet json
     title Text
     description Text
     updatedAt UTCTime
-    author AuthorId
+    authorId AuthorId
 
 Resource
     fileName Text
     comment Text Maybe
     createdAt UTCTime
-    dataset DataSetId
+    datasetId DataSetId
 
 Municipality json
     name Text
 
 EstimatedPopulation
-    municipality MunicipalityId
+    municipalityId MunicipalityId
     total Int
     timestamp Day
-    resource ResourceId
+    resourceId ResourceId
 

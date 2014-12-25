@@ -9,7 +9,7 @@ import Response
 getDataSetsR :: Handler Value
 getDataSetsR = do
     sets <- runDB $ E.select $ E.from $ \(d `E.InnerJoin` a) -> do
-        E.on (d ^. DataSetAuthor E.==. a ^.AuthorId)
+        E.on (d ^. DataSetAuthorId E.==. a ^.AuthorId)
         return (d, a)
     let res = map (uncurry toDataSetResponse) sets
     return $ object ["datasets" .= res]
